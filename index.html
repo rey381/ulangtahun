@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hepi Birthday Piwa Bocil</title>
+    <link rel="icon" href="https://i.ibb.co.com/hXZsYxZ/heart.png" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #ffffff;
+        color: #1e3a8a;
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        animation: gradient 10s ease infinite;
+      }
+
+      .page {
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease;
+      }
+
+      .page.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      .highlight {
+        color: #1e3a8a;
+        font-weight: bold;
+      }
+
+      .button,
+      .restart-button {
+        background-color: #1e3a8a;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .button:hover,
+      .restart-button:hover {
+        background-color: #2c4ca5;
+      }
+
+      img {
+        max-width: 70vw;
+        max-height: 50vh;
+        margin-bottom: 20px;
+      }
+
+      #introMessage {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        transition: opacity 1s ease, transform 1s ease;
+      }
+
+      #introMessage.hide {
+        opacity: 0;
+        transform: translateY(-20px);
+        pointer-events: none;
+      }
+
+      .letter {
+        white-space: pre-line;
+        font-size: 1.1rem;
+        max-width: 600px;
+        text-align: left;
+        border-left: 3px solid #1e3a8a;
+        padding-left: 15px;
+        min-height: 200px;
+        transition: opacity 1s ease, transform 1s ease;
+      }
+
+      .letter.hide {
+        opacity: 0;
+        transform: translateY(-20px);
+        pointer-events: none;
+      }
+
+      .photo-box {
+        margin-top: 40px;
+        padding: 15px;
+        border: 6px dashed #f472b6;
+        border-radius: 25px;
+        background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        max-width: 320px;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 1.2s ease, transform 0.8s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .photo-box img {
+        width: 100%;
+        border-radius: 20px;
+        border: 4px solid #fff0f6;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .photo-box.show {
+        opacity: 1;
+        transform: scale(1);
+        margin: 20px auto 0;
+        animation: glowBorder 2s infinite alternate;
+      }
+
+      .closing-message {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        max-width: 80%;
+        color: #1e3a8a;
+      }
+
+      .balloon {
+        position: fixed;
+        bottom: -100px;
+        width: 30px;
+        height: 40px;
+        border-radius: 50%;
+        opacity: 0.9;
+        animation: floatUp 5s linear forwards;
+        z-index: 10;
+      }
+
+      .falling {
+        position: fixed;
+        top: 0;
+        animation-name: drop;
+        animation-timing-function: linear;
+        color: #1e3a8a;
+        z-index: 20;
+      }
+
+      .restart-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-size: 1rem;
+        padding: 10px 20px;
+        z-index: 99;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-120vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      @keyframes drop {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(120vh);
+          opacity: 0;
+        }
+      }
+
+      @keyframes glowBorder {
+        0% {
+          box-shadow: 0 0 10px #f472b6;
+          border-color: #f472b6;
+        }
+        50% {
+          box-shadow: 0 0 20px #f9a8d4, 0 0 30px #facc15;
+          border-color: #facc15;
+        }
+        100% {
+          box-shadow: 0 0 10px #f472b6;
+          border-color: #f472b6;
+        }
+      }
+
+      @keyframes gradient {
+        0% {
+          background: #fce7f3;
+        }
+        50% {
+          background: #e0f2fe;
+        }
+        100% {
+          background: #fce7f3;
+        }
+      }
+
+      .credit {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #475569;
+  opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.credit img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  object-fit: cover;
+}
+
+
+      #page4 {
+  justify-content: space-between;
+  padding-bottom: 60px;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="page active" id="page1">
+      <img src="1.gif" alt="Cute Icon" />
+      <h1>Selamat ultah <span class="highlight">Buat kamu ˶ᵔ ᵕ ᵔ˶ ♡</span></h1>
+      <p>klik tombol bawah buat kelanjutannya✨</p>
+      <button class="button" onclick="goToPage(2)">disini ^_^</button>
+    </div>
+
+    <div class="page" id="page2">
+      <img src="write.gif" alt="Envelope" />
+      <p>Penasaran yaa.... ( ∩´͈ ᐜ `͈∩)</p>
+      <button class="button" onclick="goToPage(3)">Klik lagi ‹𝟹</button>
+    </div>
+
+    <div class="page" id="page3" style="font-family: 'Dancing Script', cursive">
+      <h2>HELLO (≧∇≦), Mamih inoy <𝟑 .ᐟ</h2>
+      <div id="introMessage">Selamat ulang tahun mamak 💙</div>
+      <div class="letter" id="letterText"></div>
+    </div>
+
+    <div class="page" id="page4">
+  <div class="photo-box" id="photoBox">
+    <img src="gatau.jpg" alt="Foto spesial" />
+  </div>
+  <button class="restart-button" onclick="goToPage(1)">Ulang Lagi</button>
+  <div class="closing-message">
+    Terima kasih sudah buka semuanya! 🎁<br>
+    Semoga harimu penuh cinta dan senyum 💖
+  </div>
+
+  <!-- Pindahkan footer ke sini -->
+  <footer class="credit">
+    <img src="rey.jpg" alt="Rehan" />
+    <p>Dibuat dengan semangat oleh <strong>Anggi Rehan Pangestu</strong></p>
+  </footer>
+</div>
+
+
+    <audio id="bg-music" src="lop.mp3" autoplay loop muted></audio>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      const fullLetter = `
+Selamat ulang tahun, Mamak 🎉
+
+Terima kasih atas semua kasih sayang, perhatian, dan pengorbanan yang Mamak berikan selama ini.
+
+Aku mungkin belum bisa membalas semua kebaikan Mamak, tapi doaku selalu menyertai Mamak setiap hari 💙
+
+Tetap jadi Mamak yang kuat, sabar, dan penuh cinta seperti biasanya ya.
+
+kurangin cerewet nya🗿🗿
+
+Aku sayang Mamak selalu 😊
+`;
+
+
+      let balloonInterval = null;
+
+      function goToPage(pageNum) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        const next = document.getElementById(`page${pageNum}`);
+        next.classList.add("active");
+
+        const music = document.getElementById("bg-music");
+
+        if (pageNum === 1) {
+          document.getElementById("introMessage").classList.remove("hide");
+          document.getElementById("letterText").classList.remove("hide");
+          document.getElementById("letterText").innerHTML = "";
+          document.getElementById("photoBox").classList.remove("show");
+          music.pause();
+          music.currentTime = 0;
+          music.muted = true;
+          document.querySelectorAll(".falling").forEach((el) => el.remove());
+          document.querySelectorAll(".balloon").forEach((el) => el.remove());
+          if (balloonInterval) clearInterval(balloonInterval);
+        }
+
+        if (pageNum === 3) {
+          music.muted = false;
+          music.play().catch((e) => console.log("Autoplay blocked:", e));
+          confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+          typeText(fullLetter, document.getElementById("letterText"), 70);
+        }
+      }
+
+      function typeText(text, element, speed) {
+        element.innerHTML = "";
+        let i = 0;
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i++);
+            setTimeout(type, speed);
+          } else {
+            setTimeout(() => {
+              document.getElementById("introMessage").classList.add("hide");
+              element.classList.add("hide");
+              setTimeout(() => {
+                goToPage(4);
+                startBalloons();
+                showPhotoAndHearts();
+              }, 500);
+            }, 1000);
+          }
+        }
+        type();
+      }
+
+      function showPhotoAndHearts() {
+        const photoBox = document.getElementById("photoBox");
+        photoBox.classList.add("show");
+
+        confetti({
+          particleCount: 100,
+          spread: 120,
+          origin: { y: 0.6 },
+          emojis: ["💙", "💙", "💙"],
+          scalar: 1.5,
+        });
+
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => {
+            const el = document.createElement("div");
+            el.classList.add("falling");
+            el.innerText = "💙";
+            el.style.left = Math.random() * 100 + "vw";
+            el.style.fontSize = 20 + Math.random() * 10 + "px";
+            el.style.animationDuration = 2 + Math.random() * 2 + "s";
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 5000);
+          }, i * 100);
+        }
+      }
+
+      function startBalloons() {
+        const colors = ["#f87171", "#60a5fa", "#34d399", "#fbbf24", "#c084fc"];
+        if (balloonInterval) clearInterval(balloonInterval);
+        balloonInterval = setInterval(() => {
+          const balloon = document.createElement("div");
+          balloon.classList.add("balloon");
+          balloon.style.left = Math.random() * 100 + "vw";
+          balloon.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          balloon.style.animationDuration = 4 + Math.random() * 2 + "s";
+          document.body.appendChild(balloon);
+          setTimeout(() => balloon.remove(), 6000);
+        }, 400);
+      }
+    </script>
+  </body>
+</html>
